@@ -7,10 +7,22 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Icon from '@material-ui/core/Icon';
+import { Pageview } from '@material-ui/icons';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+// Components
+import DeleteLead from '../DeleteLead/DeleteLead';
 
 class LeadList extends Component {
+    constructor(props){
+        super(props);
+
+        this.state={
+
+        }
+    }
     sortList = (property) => {
         var sortOrder = 1;
 
@@ -27,6 +39,10 @@ class LeadList extends Component {
             }        
         }
     }
+
+    handleStatusChange = (id) => (e) => {
+        this.props.onUpdate(id, 'leadStatus', e.target.value);
+    }
     
     render(){
         const sortedList = this.props.leads.sort(this.sortList('leadName'));
@@ -38,6 +54,7 @@ class LeadList extends Component {
                         <TableCell>Email</TableCell>
                         <TableCell>Phone</TableCell>
                         <TableCell>Membership Level</TableCell>
+                        <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
                     </TableRow>
                 </TableHead>
@@ -51,12 +68,25 @@ class LeadList extends Component {
                                 <TableCell>{lead.leadPhone}</TableCell>
                                 <TableCell>{lead.leadMembershipLevel}</TableCell>
                                 <TableCell>
-                                    <IconButton>
-                                        <Icon>remove_red_eye</Icon>
+                                    <FormControl>
+                                        <Select
+                                            value={lead.leadStatus}
+                                            onChange={this.handleStatusChange(lead.id)}
+                                            name="leadStatus"
+                                        >
+                                        <MenuItem value=""><em>None</em></MenuItem>
+                                        <MenuItem value='New'>New</MenuItem>
+                                        <MenuItem value='Interested'>Interested</MenuItem>
+                                        <MenuItem value='Toured'>Toured</MenuItem>
+                                        <MenuItem value='Lost'>Lost</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+                                <TableCell>
+                                    <IconButton color="primary">
+                                        <Pageview />
                                     </IconButton>
-                                    <IconButton aria-label="Delete">
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton>
+                                    <DeleteLead leadId={lead.id} leadName={lead.leadName} onDelete={this.props.onDelete} /> 
                                 </TableCell>
                             </TableRow>   
                         )

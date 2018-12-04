@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
 
 // Material UI
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 
 // Components
-import LeadDetail from './Components/LeadDetail/LeadDetail';
 import LeadList from './Components/LeadList/LeadList';
-
-let leadList;
+import CreateNewLead from './Components/CreateNewLead/CreateNewLead';
 
 class App extends Component {
   
-  constructor(pr  ops){
+  constructor(props){
     super(props);
     
     this.state = {
-      dialogOpen: false,
       currentLeadId: '',
-      NewLeadName: '',
-      NewLeadEmail: '',
       leads: [
         {
           id: 1,
@@ -32,100 +20,55 @@ class App extends Component {
           leadEmail: 'garrett@smpl.io',
           leadPhone: '704-577-3936',
           leadMembershipLevel: '',
+          leadStatus: 'New'
         },
        {
           id: 2,
           leadName: 'Sean Rogers',
           leadEmail: 'sean@smpl.io',
           leadPhone: '980-222-3032',
-          leadMembershipLevel: 'Dedicated Desk'
+          leadMembershipLevel: 'Dedicated Desk',
+          leadStatus: 'New'
         }
       ] 
     }
   }
 
-  handleOpenDialog = () => {
-      this.setState({dialogOpen: true})
+  CreateNewLead = (lead) => {
+    let currentState = this.state.leads;
+    const newLead = {
+      id: lead.id,
+      leadName: lead.leadName,
+      leadEmail: lead.leadEmail,
+      leadStatus: 'New'
+    };
+    currentState.push(newLead);
+    this.setState({leads: currentState});
   }
 
-  handleSubmit = () => {
-      this.createNewLead(this.state.NewLeadName, this.state.NewLeadEmail);
-      this.setState({dialogOpen: false})
+  DeleteLead = (leadId) => {
+    const { leads } = this.state;
+    const currentLeads = leads.filter(lead => lead.id !== leadId);
+    console.log(currentLeads);
+    this.setState({ leads: currentLeads });
+    
   }
 
-  handleCloseDialog = () => {
-      this.setState({dialogOpen: false})
-  }
+  UpdateLead = (leadId, field, updates) => {
+    const { leads } = this.state;
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
 
-  componentDidMount() {
-  }
-
-  handleNameChange = (e) => {
-    this.setState({NewLeadName: e.target.value});
-  }
-
-  handleEmailChange = (e) => {
-    this.setState({NewLeadEmail: e.target.value});
-  }
-
-  getAllLeads = () => {
-    leadList = this.state.leads;
-    console.log(leadList);
-    return leadList;
-    }
-
-  createNewLead = (name, email) =>{
-    const uniqueId = Math.random().toString(36).substr(2, 9);
-    this.state.leads.push({
-      id: uniqueId,
-      leadName: name,
-      leadEmail: email
-    })
-    console.log(this.state.leads);
+    const newLeads = leads;
+    newLeads[currentLeadIndex][field] = updates;
+    
+    this.setState({leads: newLeads});
   }
 
   render() {
-    const { fullScreen } = this.props;
     return (
       <div>
-        <LeadList leads={this.state.leads}/>
-        <Button onClick={this.handleOpenDialog}>Create</Button>
-        <Dialog
-          fullScreen={fullScreen}
-          open={this.state.dialogOpen}
-          onClose={this.handleCloseDialog}
-          ria-labelledby="responsive-dialog-title"
-        >
-            <DialogTitle id="responsive-dialog-title">{"Create A New Lead"}</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                    To create a new lead fill out the form below and hit submit.  
-                    </DialogContentText>
-                      <TextField
-                      id="lead-name"
-                      placeholder="Lead Name"
-                      multiline
-                      margin="normal"
-                      onChange={this.handleNameChange}
-                      /><br />
-                      <TextField
-                      id="lead-email"
-                      placeholder="Lead Email"
-                      multiline
-                      margin="normal"
-                      onChange={this.handleEmailChange}
-                      />
-
-                      </DialogContent>
-                  <DialogActions>
-                  <Button onClick={this.handleCloseDialog} color="primary">
-                      Cancel
-                  </Button>
-                  <Button onClick={this.handleSubmit} color="primary" autoFocus>
-                      Create
-                  </Button>
-            </DialogActions>
-          </Dialog>
+        <LeadList leads={this.state.leads} onUpdate={this.UpdateLead} onDelete={this.DeleteLead}/>
+        <CreateNewLead onCreate={this.CreateNewLead} />
       </div>
     );
   }
