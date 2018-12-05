@@ -28,21 +28,21 @@ class App extends Component {
               taskName: 'Make Contact',
               taskDueDate: '12/19/2018',
               taskAssignee: 'Garrett',
-              taskStatus: 'completed'
+              taskStatus: true
             },
             {
               id: 2,
               taskName: 'Second Follow Up',
               taskDueDate: '12/24/2018',
               taskAssignee: 'Alyssa',
-              taskStatus: 'not completed'
+              taskStatus: false
             },
             {
               id:3,
               taskName: 'Did a tour',
               taskDueDate: '12/25/2018',
               taskAssignee: 'Alyssa',
-              taskStatus: 'not completed'
+              taskStatus: false
             }
           ]
         },
