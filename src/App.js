@@ -20,7 +20,30 @@ class App extends Component {
           leadEmail: 'garrett@smpl.io',
           leadPhone: '704-577-3936',
           leadMembershipLevel: '',
-          leadStatus: 'New'
+          leadStatus: 'New',
+          tasks: [
+            {
+              id: 1,
+              taskName: 'Make Contact',
+              taskDueDate: '12/19/2018',
+              taskAssignee: 'Garrett',
+              taskStatus: 'completed'
+            },
+            {
+              id: 2,
+              taskName: 'Second Follow Up',
+              taskDueDate: '12/24/2018',
+              taskAssignee: 'Alyssa',
+              taskStatus: 'not completed'
+            },
+            {
+              id:3,
+              taskName: 'Did a tour',
+              taskDueDate: '12/25/2018',
+              taskAssignee: 'Alyssa',
+              taskStatus: 'not completed'
+            }
+          ]
         },
        {
           id: 2,
@@ -28,7 +51,12 @@ class App extends Component {
           leadEmail: 'sean@smpl.io',
           leadPhone: '980-222-3032',
           leadMembershipLevel: 'Dedicated Desk',
-          leadStatus: 'New'
+          leadStatus: 'New',
+          tasks: [
+            {
+
+            }
+          ]
         }
       ] 
     }
@@ -49,7 +77,6 @@ class App extends Component {
   DeleteLead = (leadId) => {
     const { leads } = this.state;
     const currentLeads = leads.filter(lead => lead.id !== leadId);
-    console.log(currentLeads);
     this.setState({ leads: currentLeads });
     
   }
