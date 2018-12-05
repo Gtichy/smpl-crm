@@ -36,12 +36,16 @@ class LeadList extends Component {
                 return b[property].localeCompare(a[property]);
             }else{
                 return a[property].localeCompare(b[property]);
-            }        
+            }       
         }
     }
 
     handleStatusChange = (id) => (e) => {
         this.props.onUpdate(id, 'leadStatus', e.target.value);
+    }
+
+    viewLead = (id) => {
+        this.props.viewLead(id);
     }
     
     render(){
@@ -83,7 +87,7 @@ class LeadList extends Component {
                                     </FormControl>
                                 </TableCell>
                                 <TableCell>
-                                    <IconButton color="primary">
+                                    <IconButton onClick={()=>{this.viewLead(lead.id)}} color="primary">
                                         <Pageview />
                                     </IconButton>
                                     <DeleteLead leadId={lead.id} leadName={lead.leadName} onDelete={this.props.onDelete} /> 

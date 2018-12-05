@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 // Components
 import LeadList from './Components/LeadList/LeadList';
 import CreateNewLead from './Components/CreateNewLead/CreateNewLead';
+import LeadDetail from './Components/LeadDetail/LeadDetail';
 
 class App extends Component {
   
@@ -12,7 +13,7 @@ class App extends Component {
     super(props);
     
     this.state = {
-      currentLeadId: '',
+      selectedLead: [],
       leads: [
         {
           id: 1,
@@ -83,7 +84,7 @@ class App extends Component {
 
   UpdateLead = (leadId, field, updates) => {
     const { leads } = this.state;
-    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
+    const currentLeadIndex = leads.findIndex(lead => lead.id !== leadId);
 
     const newLeads = leads;
     newLeads[currentLeadIndex][field] = updates;
@@ -91,12 +92,19 @@ class App extends Component {
     this.setState({leads: newLeads});
   }
 
+  ViewLead = (leadId) => {
+    const { leads } = this.state;
+    const currentLead = leads.filter(lead => lead.id === leadId);
+    this.setState({selectedLead: currentLead});
+  }
+
   render() {
     return (
-      <div>
-        <LeadList leads={this.state.leads} onUpdate={this.UpdateLead} onDelete={this.DeleteLead}/>
+        <div>
+        <LeadList leads={this.state.leads} onUpdate={this.UpdateLead} onDelete={this.DeleteLead} viewLead={this.ViewLead}/>
         <CreateNewLead onCreate={this.CreateNewLead} />
-      </div>
+        <LeadDetail leadDetails={this.state.selectedLead}/>
+        </div>
     );
   }
 }
