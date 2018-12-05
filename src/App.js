@@ -55,7 +55,11 @@ class App extends Component {
           leadStatus: 'New',
           tasks: [
             {
-
+              id: 1,
+              taskName: 'Make Contact',
+              taskDueDate: '12/19/2018',
+              taskAssignee: 'Garrett',
+              taskStatus: true
             }
           ]
         }
@@ -84,7 +88,7 @@ class App extends Component {
 
   UpdateLead = (leadId, field, updates) => {
     const { leads } = this.state;
-    const currentLeadIndex = leads.findIndex(lead => lead.id !== leadId);
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
 
     const newLeads = leads;
     newLeads[currentLeadIndex][field] = updates;
@@ -98,12 +102,27 @@ class App extends Component {
     this.setState({selectedLead: currentLead});
   }
 
+  CreateTask = (task) => {
+    
+  }
+
+  updateTaskStatus = (leadId, taskId) => {
+    const { leads } = this.state;
+    const currentLead = leads.filter(lead => lead.id === leadId);
+    const currentTaskIndex = currentLead[0].tasks.findIndex(task => task.id === taskId);
+    const currentTaskStatus = currentLead[0].tasks[currentTaskIndex].taskStatus;
+    console.log(currentTaskStatus);
+    this.setState({
+      [currentTaskStatus]: false
+    })
+  }
+
   render() {
     return (
         <div>
         <LeadList leads={this.state.leads} onUpdate={this.UpdateLead} onDelete={this.DeleteLead} viewLead={this.ViewLead}/>
         <CreateNewLead onCreate={this.CreateNewLead} />
-        <LeadDetail leadDetails={this.state.selectedLead}/>
+        <LeadDetail leadDetails={this.state.selectedLead} onUpdateTaskStatus={this.updateTaskStatus} onCreateTask={this.CreateTask}/>
         </div>
     );
   }

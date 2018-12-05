@@ -15,7 +15,7 @@ class DeleteLead extends Component {
         super(props);
 
         this.state = {
-            openDialog: false
+            dialogOpen: false
         }
     }
 
