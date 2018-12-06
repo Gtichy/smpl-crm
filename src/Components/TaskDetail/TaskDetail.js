@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 class TaskDetail extends Component {
     constructor(props){
@@ -18,7 +19,7 @@ class TaskDetail extends Component {
     }
   
     handleTaskComplete = (leadId, taskId) => {
-      this.props.onUpdateTaskStatus(leadId, taskId);
+      this.props.onUpdateTaskStatus(leadId, 'taskStatus', taskId);
     }
         
     render(){
@@ -39,6 +40,7 @@ class TaskDetail extends Component {
                           }
                           label={task.taskName}
                           />
+
                           )
                     })
                   )}

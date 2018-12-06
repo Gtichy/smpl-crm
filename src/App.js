@@ -106,15 +106,23 @@ class App extends Component {
     
   }
 
-  updateTaskStatus = (leadId, taskId) => {
+  updateTaskStatus = (leadId, field, taskId) => {
     const { leads } = this.state;
     const currentLead = leads.filter(lead => lead.id === leadId);
     const currentTaskIndex = currentLead[0].tasks.findIndex(task => task.id === taskId);
     const currentTaskStatus = currentLead[0].tasks[currentTaskIndex].taskStatus;
-    console.log(currentTaskStatus);
-    this.setState({
-      [currentTaskStatus]: false
-    })
+
+    let statusUpdate;
+    if(currentTaskStatus === false){
+      statusUpdate = true;
+    }else{
+      statusUpdate = false;
+    }
+
+    const newLeads = leads;
+    newLeads[0].tasks[currentTaskIndex][field] = statusUpdate;
+    
+    this.setState({leads: newLeads});
   }
 
   render() {
