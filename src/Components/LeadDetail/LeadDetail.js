@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // Components
 import TaskDetail from '../TaskDetail/TaskDetail';
 import CreateNewTask from '../CreateNewTask/CreateNewTask';
+import UpdateLead from '../UpdateLead/UpdateLead';
 
 class LeadDetail extends Component {
     render() {
@@ -18,6 +19,8 @@ class LeadDetail extends Component {
                         <h4>Phone: {lead.leadPhone}</h4>
                         <h4>Email: {lead.leadEmail}</h4>
                         <h4>Membership Level: {lead.leadMembershipLevel}</h4>
+                        <hr/>
+                        <UpdateLead leadId={lead.id} leadDetails={this.props.leadDetails} onUpdateLead={this.props.onUpdateLead}/>
                         <hr/>
                         <CreateNewTask leadId={lead.id} onCreateTask={this.props.onCreateTask} /> 
                         <TaskDetail leadDetails={this.props.leadDetails} onUpdateTaskStatus={this.props.onUpdateTaskStatus} onDeleteTask={this.props.onDeleteTask} />

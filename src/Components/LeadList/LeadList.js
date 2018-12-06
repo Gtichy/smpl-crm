@@ -41,7 +41,7 @@ class LeadList extends Component {
     }
 
     handleStatusChange = (id) => (e) => {
-        this.props.onUpdate(id, 'leadStatus', e.target.value);
+        this.props.onUpdateLeadStatus(id, 'leadStatus', e.target.value);
     }
 
     viewLead = (id) => {
