@@ -113,9 +113,23 @@ class App extends Component {
     this.setState({leads: newLeads});
   }
 
+  DeleteTask = (leadId, taskId) => {
+    console.log(`${leadId} then delete ${taskId}`);
+    const { leads } = this.state;
+    const currentLead = leads.filter(lead => lead.id === leadId);
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
+    const newTasks = currentLead[currentLeadIndex].tasks.filter(task => task.id !== taskId);
+
+    const newLeads = leads;
+    newLeads[currentLeadIndex].tasks = newTasks;
+
+    this.setState({leads: newLeads});
+  }
+
   updateTaskStatus = (leadId, field, taskId) => {
     const { leads } = this.state;
     const currentLead = leads.filter(lead => lead.id === leadId);
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
     const currentTaskIndex = currentLead[0].tasks.findIndex(task => task.id === taskId);
     const currentTaskStatus = currentLead[0].tasks[currentTaskIndex].taskStatus;
 
@@ -125,9 +139,8 @@ class App extends Component {
     }else{
       statusUpdate = false;
     }
-
     const newLeads = leads;
-    newLeads[0].tasks[currentTaskIndex][field] = statusUpdate;
+    newLeads[currentLeadIndex].tasks[currentTaskIndex][field] = statusUpdate;
     
     this.setState({leads: newLeads});
   }
@@ -137,7 +150,12 @@ class App extends Component {
         <div>
         <LeadList leads={this.state.leads} onUpdate={this.UpdateLead} onDelete={this.DeleteLead} viewLead={this.ViewLead}/>
         <CreateNewLead onCreate={this.CreateNewLead} />
-        <LeadDetail leadDetails={this.state.selectedLead} onUpdateTaskStatus={this.updateTaskStatus} onCreateTask={this.CreateTask}/>
+        <LeadDetail 
+          leadDetails={this.state.selectedLead} 
+          onUpdateTaskStatus={this.updateTaskStatus} 
+          onCreateTask={this.CreateTask} 
+          onDeleteTask={this.DeleteTask}
+        />
         </div>
     );
   }

@@ -20,7 +20,7 @@ class LeadDetail extends Component {
                         <h4>Membership Level: {lead.leadMembershipLevel}</h4>
                         <hr/>
                         <CreateNewTask leadId={lead.id} onCreateTask={this.props.onCreateTask} /> 
-                        <TaskDetail leadDetails={this.props.leadDetails} onUpdateTaskStatus={this.props.onUpdateTaskStatus} />
+                        <TaskDetail leadDetails={this.props.leadDetails} onUpdateTaskStatus={this.props.onUpdateTaskStatus} onDeleteTask={this.props.onDeleteTask} />
                         </div>
                     )
                 })

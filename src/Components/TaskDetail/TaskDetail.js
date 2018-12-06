@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { map } from 'lodash';
 
 // Material Ui
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+// Components
+import DeleteTask from '../DeleteTask/DeleteTask';
 
 class TaskDetail extends Component {
     constructor(props){
@@ -25,27 +29,38 @@ class TaskDetail extends Component {
       const leadInfo = map(this.props.leadDetails);
       const taskInfo = map(this.props.leadDetails[0].tasks);
         return (
-          <div>
-            <FormControl component="fieldset">
-            <FormLabel component="legend">To-Do List</FormLabel>
-              <FormGroup>     
+          <Table>
+          <TableHead>
+              <TableRow>
+                  <TableCell>Task</TableCell>
+                  <TableCell>Due Date</TableCell>
+                  <TableCell>Assigned To</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Actions</TableCell>
+              </TableRow>
+          </TableHead>
+          <TableBody>
                 {
                   leadInfo.map(lead =>
                     taskInfo.map(task => { 
                       return (
-                      <FormControlLabel
-                        control={
-                          <Checkbox checked={task.taskStatus} onClick={() => { this.handleTaskComplete(lead.id, task.id)}} value="" />
-                          }
-                          label={task.taskName}
-                          />
-
+                        <TableRow>
+                          <TableCell>{task.taskName}</TableCell>
+                          <TableCell>{task.taskDueDate}</TableCell>
+                          <TableCell>{task.taskAssignee}</TableCell>
+                          <TableCell>
+                            <Checkbox checked={task.taskStatus} onClick={() => { this.handleTaskComplete(lead.id, task.id)}} value="" />
+                          </TableCell>
+                          <TableCell>
+                            <DeleteTask leadId={lead.id} taskId={task.id} taskName={task.taskName} onDeleteTask={this.props.onDeleteTask} /> 
+                          </TableCell>
+                          </TableRow>
                           )
                     })
-                  )}
-              </FormGroup>
-            </FormControl>
-          </div>
+                  )
+                }
+          </TableBody>
+          </Table>
         )
       }
     }
