@@ -32,9 +32,10 @@ class CreateNewTask extends Component {
         const task = {
           id: uniqueId,
           taskName: this.state.newTaskName,
-          taskDueDate: this.state.newTaskDate
+          taskDueDate: this.state.newTaskDate,
+          taskAssignee: this.state.newTaskAssignee
         }
-        this.props.onCreateTask(task);
+        this.props.onCreateTask(this.props.leadId, task);
   
     }
   
@@ -86,7 +87,14 @@ class CreateNewTask extends Component {
                             InputLabelProps={{
                             shrink: true
                             }}
-                            />
+                            /><br />
+                            <TextField
+                          id="task-assignee"
+                          placeholder="Task Assignee"
+                          multiline
+                          margin="normal"
+                          onChange={this.handleAssigneeChange}
+                          />
                           </DialogContent>
                       <DialogActions>
                       <Button onClick={this.handleCloseDialog} color="primary">

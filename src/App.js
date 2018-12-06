@@ -73,7 +73,8 @@ class App extends Component {
       id: lead.id,
       leadName: lead.leadName,
       leadEmail: lead.leadEmail,
-      leadStatus: 'New'
+      leadStatus: 'New',
+      tasks: []
     };
     currentState.push(newLead);
     this.setState({leads: currentState});
@@ -102,8 +103,14 @@ class App extends Component {
     this.setState({selectedLead: currentLead});
   }
 
-  CreateTask = (task) => {
-    
+  CreateTask = (leadId, task) => {
+    const { leads } = this.state;
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
+
+    const newLeads = leads;
+    newLeads[currentLeadIndex].tasks.push(task);
+
+    this.setState({leads: newLeads});
   }
 
   updateTaskStatus = (leadId, field, taskId) => {
