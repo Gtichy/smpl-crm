@@ -28,7 +28,7 @@ class TaskDetail extends Component {
     render(){
       const leadInfo = map(this.props.leadDetails);
       const taskInfo = map(this.props.leadDetails[0].tasks);
-        return (
+      return (
           <Table>
           <TableHead>
               <TableRow>

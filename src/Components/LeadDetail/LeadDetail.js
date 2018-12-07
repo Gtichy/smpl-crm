@@ -10,7 +10,6 @@ class LeadDetail extends Component {
         const currentLead = this.props.leadDetails;
         return (
             <div>
-                <h3>These are the lead details</h3>
                 {
                 currentLead.map(lead => {
                     return (
