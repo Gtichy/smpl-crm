@@ -44,7 +44,13 @@ class App extends Component {
               taskAssignee: 'Alyssa',
               taskStatus: false
             }
-          ]
+          ],
+        notes: [
+          {
+            id: 1,
+            note: "turns out Garrett is a big jerk"
+          }
+        ]
         },
        {
           id: 2,
@@ -61,7 +67,8 @@ class App extends Component {
               taskAssignee: 'Garrett',
               taskStatus: true
             }
-          ]
+          ],
+          notes: []
         }
       ] 
     }
@@ -74,7 +81,8 @@ class App extends Component {
       leadName: lead.leadName,
       leadEmail: lead.leadEmail,
       leadStatus: 'New',
-      tasks: []
+      tasks: [],
+      notes: []
     };
     currentState.push(newLead);
     this.setState({leads: currentState});
@@ -124,6 +132,17 @@ class App extends Component {
     this.setState({leads: newLeads});
   }
 
+  CreateNote = (leadId, note) => {
+    const { leads } = this.state;
+    const currentLeadIndex = leads.findIndex(lead => lead.id === leadId);
+
+    const newLeads = leads;
+    newLeads[currentLeadIndex].notes.push(note);
+
+    this.setState({leads: newLeads});
+
+  }
+
   DeleteTask = (leadId, taskId) => {
     console.log(`${leadId} then delete ${taskId}`);
     const { leads } = this.state;
@@ -167,6 +186,7 @@ class App extends Component {
           onUpdateTaskStatus={this.updateTaskStatus} 
           onCreateTask={this.CreateTask} 
           onDeleteTask={this.DeleteTask}
+          onCreateNote={this.CreateNote}
         />
         </div>
     );
